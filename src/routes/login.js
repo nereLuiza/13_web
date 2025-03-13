@@ -1,4 +1,3 @@
-import verificarAutenticacao from "../middlewares/autenticacao.js";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import { autenticarUsuario } from "../db/index.js";
@@ -11,8 +10,8 @@ router.post("/login", async (req, res) => {
   try {
     const usuario = await autenticarUsuario(req.body.email, req.body.senha);
     if (usuario !== undefined) {
-      const token = jwt.sign({ user: usuario.id, acesso: usuario.acesso }, process.env.SECRET, {
-        expiresIn: 30000,
+      const token = jwt.sign({ user: usuario.id }, process.env.SECRET, {
+        expiresIn: 300,
       });
       res.status(202).json({ token: token });
     } else res.status(404).json({ message: "Usuário/Senha incorreta!" });

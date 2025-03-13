@@ -3,9 +3,18 @@ const { Pool } = pkg;
 
 async function connect() {
   const pool = new Pool({
-    connectionString: process.env.URL_DB,
+    connectionString: process.env.URL_BD,
   });
   return pool.connect();
+}
+
+
+async function autenticarUsuario(email, senha) {
+  const client = await connect();
+  const query = "SELECT * FROM usuario WHERE email = $1 AND senha = $2";
+  const usuario = [email, senha];
+  const res = await client.query(query, usuario);
+  return res.rows[0];
 }
 
 async function selectUsuarios() {
@@ -13,7 +22,6 @@ async function selectUsuarios() {
   const res = await client.query("SELECT * FROM usuario");
   return res.rows;
 }
-
 async function selectUsuario(id) {
   const client = await connect();
   const query = "SELECT * FROM usuario WHERE id = $1";
@@ -46,12 +54,4 @@ async function updateUsuario(id, data) {
   client.release();
 }
 
-async function autenticarUsuario(email, senha) {
-  const client = await connect();
-  const query = "SELECT * FROM usuario WHERE email = $1 AND senha = $2";
-  const usuario = [email, senha];
-  const res = await client.query(query, usuario);
-  return res.rows[0];
-}
-
-export { selectUsuarios, selectUsuario, insertUsuario, deleteUsuario, updateUsuario, autenticarUsuario};
+export { selectUsuarios, selectUsuario, insertUsuario, deleteUsuario, updateUsuario, autenticarUsuario };
