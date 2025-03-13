@@ -1,3 +1,4 @@
+import verificarAutenticacao from "../middlewares/autenticacao.js";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import { autenticarUsuario } from "../db/index.js";
