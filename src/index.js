@@ -5,12 +5,14 @@ import roteadorUsuario from "./routes/usuario.js";
 import roteadorLogin from "./routes/login.js";
 import cors from "cors";
 
+const cors = require('cors');
+app.use(cors({ origin: '*' }));
+
 dotenv.config();
 
 const app = express();
 const port = 3000;
 
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(roteadorLogin);
